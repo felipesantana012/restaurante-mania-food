@@ -1,0 +1,25 @@
+:root {
+  --cor-box-shadow: 2px 2px 10px 2px rgb(0, 0, 0, 0.2);
+
+  /* Cores de fundo */
+  --cor-background-primeiro: #e6e6e6;
+  --cor-background-segundo: #f1f1f1;
+  --cor-background-terceiro: rgb(34, 34, 34);
+
+  /* Cores Fontes */
+  --cor-fonte-primeiro: #fffde6;
+  --cor-fonte-segundo: #080808d5;
+  --cor-fonte-terceiro: #af8f00;
+
+  /* Cores Hover e Borda */
+  --cor-hover-border-primeiro: #ffb223;
+  --cor-hover-border-segundo: #fcef3e;
+
+  /* Tipos de fonte */
+  --fonte-titulo: "Lugrasimo", cursive;
+  --fonte-texto: "Raleway", sans-serif;
+
+  /* Outras cores */
+  --cor-vermelho: rgb(173, 0, 0);
+  --cor-verde: rgb(5, 158, 0);
+}

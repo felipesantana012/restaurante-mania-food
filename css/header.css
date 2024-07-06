@@ -1,0 +1,53 @@
+header {
+  min-height: 10%;
+  background: var(--cor-background-terceiro);
+  box-shadow: 2px 3px 20px 1px rgb(37, 37, 37);
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo {
+  max-width: 4%;
+  min-width: 50px;
+}
+
+.logo img {
+  width: 100%;
+}
+
+header i {
+  font-size: 24px;
+  color: var(--cor-fonte-primeiro);
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  opacity: 0.9;
+}
+
+header i:hover {
+  opacity: 1;
+  transform: scale(1.2);
+}
+
+.btn-meuCardapio {
+  text-decoration: none;
+  border: 1px solid var(--cor-hover-border-segundo);
+  color: var(--cor-hover-border-segundo);
+  padding: 8px 10px;
+  border-radius: 10px;
+  font-weight: 600;
+  transition: all 0.3s ease-in-out;
+}
+
+.btn-meuCardapio:hover {
+  background-color: var(--cor-hover-border-segundo);
+  color: var(--cor-fonte-segundo);
+}
+
+.site-sair {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}

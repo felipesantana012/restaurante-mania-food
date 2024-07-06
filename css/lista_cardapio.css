@@ -1,0 +1,119 @@
+.lista_cardapio {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.lista_cardapio h2 {
+  font-size: 22px;
+  text-align: center;
+}
+
+.lista_todos_itens {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  background-color: var(--cor-background-segundo);
+  border-radius: 10px;
+  padding: 1.5rem;
+  box-shadow: var(--cor-box-shadow);
+}
+
+.cardapioContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+  border-radius: 10px;
+}
+
+.cardapioContainer-categoria {
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.input-categoria {
+  padding: 8px;
+  border-radius: 10px;
+  border: 0.5px solid var(--cor-hover-border-primeiro);
+  outline-color: var(--cor-hover-border-primeiro);
+  font-size: 1.5rem;
+  font-weight: 800;
+  text-align: center;
+}
+
+.cardapioContainer-item {
+  box-shadow: var(--cor-box-shadow);
+  background-color: var(--cor-background-primeiro);
+  padding: 1rem;
+  border-radius: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 10px;
+  margin-bottom: 1.5rem;
+}
+
+.cardapioContainer-item label {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 290px;
+}
+
+.deletar-item {
+  margin: 0 auto;
+  flex: 0 0 90%;
+  order: 6;
+  max-height: 40px;
+  max-width: 300px;
+}
+
+.btn-deletar {
+  padding: 7px;
+  border-radius: 10px;
+  background-color: rgb(197, 0, 0);
+  color: var(--cor-fonte-primeiro);
+  border: 2px solid var(--cor-hover-border-primeiro);
+  opacity: 0.9;
+  cursor: pointer;
+}
+
+.deletar-categoria {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.container_categoria-item {
+  border-radius: 10px;
+  border: 2px solid var(--cor-hover-border-primeiro);
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.btn-salvarAlteracoes {
+  background-color: var(--cor-hover-border-segundo);
+  text-decoration: none;
+  border: 1px solid var(--cor-fonte-terceiro);
+  color: var(--cor-fonte-segundo);
+  padding: 8px 1rem;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.btn-salvarAlteracoes:hover {
+  background-color: var(--cor-hover-border-primeiro);
+  color: var(--cor-fonte-segundo);
+}
+@media screen and (max-width: 540px) {
+  .input-categoria {
+    font-size: 1.1rem;
+    width: 60%;
+  }
+}

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/imports.css">
+    <title>Restaurante</title>
+</head>
+
+<body>
+    <div class="container_principal">
+        <header>
+            <a href="/" class="logo"><img src="/imgs/Logo-Mania-Food.png" alt="Logo site"></a>
+
+            <div class="site-sair">
+                <a href="#" class="btn-meuCardapio">Meu Site</a>
+                <i class="fa-solid fa-right-from-bracket"></i>
+            </div>
+        </header>
+
+        <main>
+            <section class="cadastro_cardapio">
+
+                <h1>Cadastro do Cardapio</h1>
+
+                <div class="cadastro_cardapio-categoria">
+                    <form id="categoriaForm" class="form">
+                        <h2>Cadastre nova categoria</h2>
+                        <input type="text" id="categoriaInput" placeholder="Nome Da Categoria" class="inputs" required>
+                        <button type="submit" class="btn-cadastro">Adicionar Categoria</button>
+                    </form>
+                </div>
+
+                <div class="cadastro_cardapio-itens">
+                    <form id="itemForm" class="form">
+                        <h2>Cadastre Novo Item</h2>
+                        <select id="categoriaSelect" required class="inputs">
+                            <option value="">Selecione a Categoria</option>
+                        </select>
+                        <input type="text" id="nomeInput" placeholder="Nome do Item" class="inputs" required>
+                        <input type="text" id="imgInput" placeholder="URL da Imagem" class="inputs" required>
+                        <input type="number" id="precoInput" placeholder="Preço Original" class="inputs" required>
+                        <input type="text" id="descricaoInput" placeholder="Descrição" class="inputs" required>
+                        <input type="text" id="tipoInput" placeholder="Tipo ou Tamanho" class="inputs" required>
+                        <button type="submit" class="btn-cadastro">Adicionar Item</button>
+                    </form>
+                </div>
+
+            </section>
+
+            <section class="lista_cardapio">
+                <h2>Listagem de Categorias e Itens</h2>
+                <div class="lista_todos_itens">
+
+
+                    <div id="cardapioContainer" class="cardapioContainer">
+
+
+                    </div>
+
+                    <button id="salvarAlteracoesBtn" class="btn-salvarAlteracoes">Salvar Alterações</button>
+            </section>
+        </main>
+
+        <footer>
+           
+            <ul>
+                <li><a href="#"><i class="fa-brands fa-instagram"></i></a></li>
+                <li><a href="#"><i class="fa-brands fa-whatsapp"></i></a></li>
+                <li><a href="#"><i class="fa-brands fa-tiktok"></i></a></li>
+            </ul>
+
+        </footer>
+    </div>
+
+    <script src="/script/index.js"></script>
+</body>
+
+</html>

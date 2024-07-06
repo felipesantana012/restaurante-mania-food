@@ -1,0 +1,35 @@
+footer {
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
+  align-items: center;
+  min-height: 10%;
+  background: var(--cor-background-terceiro);
+  box-shadow: 2px 3px 20px 1px rgb(37, 37, 37);
+}
+
+footer ul {
+  display: flex;
+  list-style: none;
+  gap: 15px;
+}
+
+footer ul li {
+  padding: 0.5rem;
+  border-radius: 50%;
+  border: 1px solid var(--cor-hover-border-segundo);
+  transition: all 0.3s ease-in-out;
+}
+
+footer ul li i {
+  font-size: 20px;
+  color: var(--cor-fonte-primeiro);
+}
+
+footer ul li i:hover {
+  transform: scale(1.1);
+}
+
+footer ul li:hover {
+  background-color: var(--cor-hover-border-primeiro);
+}
