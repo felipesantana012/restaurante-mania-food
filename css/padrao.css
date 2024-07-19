@@ -49,6 +49,7 @@ a {
   border-radius: 10px;
   outline-color: var(--cor-hover-border-primeiro);
   width: 100%;
+  box-shadow: var(--cor-box-shadow);
 }
 
 @media screen and (max-width: 700px) {
