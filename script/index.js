@@ -1,4 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
+  if (localStorage.getItem("authenticated") !== "true") {
+    window.location.href = "https://mania-food-login.vercel.app/";
+  }
+
   const categoriaForm = document.getElementById("categoriaForm");
   const itemForm = document.getElementById("itemForm");
   const categoriaSelect = document.getElementById("categoriaSelect");
