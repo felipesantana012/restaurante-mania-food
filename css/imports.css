@@ -1,5 +1,6 @@
 @import url("/css/padrao.css");
 @import url("/css/variaveis.css");
+@import url("/css/login.css");
 @import url("/css/header.css");
 @import url("/css/main.css");
 @import url("/css/cadastro_cardapio.css");
@@ -10,4 +11,4 @@
 @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css");
 
 /* Fontes */
-@import url('https://fonts.googleapis.com/css2?family=Lugrasimo&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Lugrasimo&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap");
