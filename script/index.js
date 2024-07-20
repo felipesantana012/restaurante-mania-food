@@ -1,7 +1,14 @@
-if (localStorage.getItem("authenticated") !== "true") {
-  window.location.href = "https://mania-food-login.vercel.app/";
-}
 document.addEventListener("DOMContentLoaded", () => {
+  if (localStorage.getItem("token") == null) {
+    alert("Voce Precisa estar logado para acessar a pagina");
+    window.location.href = "https://mania-food-login.vercel.app/";
+  }
+
+  document.getElementById("sair").addEventListener("click", () => {
+    localStorage.removeItem("token");
+    window.location.href = "https://mania-food-login.vercel.app/";
+  });
+
   const categoriaForm = document.getElementById("categoriaForm");
   const itemForm = document.getElementById("itemForm");
   const categoriaSelect = document.getElementById("categoriaSelect");
@@ -223,10 +230,4 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   carregarCategorias();
-
-  document.getElementById("sair").addEventListener("click", () => {
-    localStorage.removeItem("authenticated");
-    alert("Deslogado");
-    window.location.href = "https://mania-food-login.vercel.app/";
-  });
 });
