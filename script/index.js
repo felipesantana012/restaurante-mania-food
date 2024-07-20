@@ -1,10 +1,15 @@
-if (localStorage.getItem("token") == null) {
-  alert("Voce Precisa estar logado para acessar a pagina");
+let token = localStorage.getItem("token");
+let expiraEm = new Date(localStorage.getItem("expiraEm"));
+let agora = new Date();
+
+if (token == null || agora > expiraEm) {
+  alert("Seção expirada, Voce Precisa logar novamente para acessar a pagina");
   window.location.href = "/";
 }
 
 document.getElementById("sair").addEventListener("click", () => {
   localStorage.removeItem("token");
+  localStorage.removeItem("expiraEm");
   window.location.href = "/";
 });
 
