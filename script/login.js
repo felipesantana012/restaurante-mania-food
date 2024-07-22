@@ -1,5 +1,4 @@
-import { fetchUsuario } from "./fetchApi.js";
-import { mensagemError } from "./funcoesGlobais.js";
+import { getUsuario } from "./fetchApis/fetchUsuario.js";
 
 document
   .getElementById("loginForm")
@@ -10,7 +9,7 @@ document
     const senha = document.getElementById("senha").value;
 
     try {
-      const data = await fetchUsuario();
+      const data = await getUsuario();
       if (data) {
         const usuario = data.nome === nome && data.senha === senha;
 
@@ -24,10 +23,10 @@ document
           localStorage.setItem("expiraEm", expiraEm.toISOString());
           window.location.href = "paginas/home.html";
         } else {
-          mensagemError("Usuário ou senha inválidos");
+          window.mensagemErro("Usuário ou senha inválidos");
         }
       }
     } catch (error) {
-      mensagemError("Erro ao verificar usuário. Tente novamente mais tarde.");
+      window.mensagemErro(error.message);
     }
   });

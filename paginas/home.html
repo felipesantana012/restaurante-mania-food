@@ -7,7 +7,7 @@
     <meta name="theme-color" content="#222222">
     <link rel="shortcut icon" href="./imgs/Logo-Mania-Food.png" type="image/x-icon">
     <link rel="stylesheet" href="/css/imports.css">
-    <title>Restaurante</title>
+    <title>Home Restaurante</title>
 </head>
 
 <body>
@@ -17,11 +17,11 @@
 
             <div class="site-sair">
                 <a href="#" class="btn-meuCardapio">Meu Site</a>
-                <i class="fa-solid fa-right-from-bracket" id="sair"></i>
+                <i class="fa-solid fa-right-from-bracket" id="sair" onclick="sair()"></i>
             </div>
         </header>
 
-        <main>
+        <main class="container_main">
             <section class="cadastro_cardapio">
 
                 <h1>Cadastro do Cardapio</h1>
@@ -76,8 +76,7 @@
         </footer>
     </div>
 
-    <script src="/script/index.js" type="module"></script>
-    <script src="/script/fetchApi.js" type="module"></script>
+    <script src="/script/home.js" type="module"></script>
     <script src="/script/funcoesGlobais.js" type="module"></script>
 
 </body>
