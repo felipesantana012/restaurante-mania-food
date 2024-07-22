@@ -1,21 +1,18 @@
-const urlUsuario = "http://localhost:3000/usuario";
+import { fetchUsuario } from "./fetchApi.js";
+import { mensagemError } from "./funcoesGlobais.js";
 
 document
   .getElementById("loginForm")
   .addEventListener("submit", async function (event) {
-    event.preventDefault(); // Impede o envio do formulário
+    event.preventDefault();
 
     const nome = document.getElementById("nome").value;
     const senha = document.getElementById("senha").value;
 
     try {
-      const response = await fetch(urlUsuario);
-      const data = await response.json();
-
+      const data = await fetchUsuario();
       if (data) {
-        const usuario = data.find(
-          (user) => user.nome === nome && user.senha === senha
-        );
+        const usuario = data.nome === nome && data.senha === senha;
 
         if (usuario) {
           let agora = new Date();
@@ -25,21 +22,12 @@ document
             Math.random().toString(16).substring(2);
           localStorage.setItem("token", token);
           localStorage.setItem("expiraEm", expiraEm.toISOString());
-          window.location.href = "home.html";
+          window.location.href = "paginas/home.html";
         } else {
           mensagemError("Usuário ou senha inválidos");
         }
       }
     } catch (error) {
-      console.error("Erro ao verificar usuário:", error);
       mensagemError("Erro ao verificar usuário. Tente novamente mais tarde.");
     }
   });
-
-const mensagemError = (mensagem) => {
-  const mensagemDiv = document.getElementById("mensagem");
-  mensagemDiv.textContent = mensagem;
-  setTimeout(() => {
-    mensagemDiv.textContent = "";
-  }, 4000);
-};
