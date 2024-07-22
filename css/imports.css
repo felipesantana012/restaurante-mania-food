@@ -2,9 +2,13 @@
 @import url("/css/padroes/variaveis.css");
 @import url("/css/padroes/footer.css");
 @import url("/css/padroes/header.css");
+
 @import url("/css/login/login.css");
+
 @import url("/css/home/cadastro_cardapio.css");
 @import url("/css/home/lista_cardapio.css");
+
+@import url("/css//meuPerfil/editar_dados.css");
 
 /* Icones */
 @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css");
