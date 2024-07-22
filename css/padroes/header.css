@@ -12,6 +12,11 @@ header {
 .logo {
   max-width: 4%;
   min-width: 50px;
+  transition: all 0.2s ease-in-out;
+}
+
+.logo:hover {
+  transform: scale(1.1);
 }
 
 .logo img {
@@ -19,7 +24,7 @@ header {
 }
 
 header i {
-  font-size: 24px;
+  font-size: 26px;
   color: var(--cor-fonte-primeiro);
   cursor: pointer;
   transition: all 0.3s ease-in-out;
@@ -31,11 +36,17 @@ header i:hover {
   transform: scale(1.2);
 }
 
+.site-sair {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
 .btn-meuCardapio {
   text-decoration: none;
   border: 1px solid var(--cor-hover-border-segundo);
   color: var(--cor-hover-border-segundo);
-  padding: 8px 10px;
+  padding: 5px 8px;
   border-radius: 10px;
   font-weight: 600;
   transition: all 0.3s ease-in-out;
@@ -44,10 +55,4 @@ header i:hover {
 .btn-meuCardapio:hover {
   background-color: var(--cor-hover-border-segundo);
   color: var(--cor-fonte-segundo);
-}
-
-.site-sair {
-  display: flex;
-  gap: 1rem;
-  align-items: center;
 }

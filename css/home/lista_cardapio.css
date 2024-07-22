@@ -96,20 +96,19 @@
 }
 
 .btn-salvarAlteracoes {
-  background-color: var(--cor-hover-border-segundo);
+  background-color: var(--cor-hover-border-primeiro);
   text-decoration: none;
   border: 1px solid var(--cor-fonte-terceiro);
-  color: var(--cor-fonte-segundo);
   padding: 8px 1rem;
   border-radius: 10px;
-  font-weight: 600;
+  font-weight: 500;
   cursor: pointer;
-  transition: all 0.3s ease-in-out;
+  transition: all 0.2s ease-in-out;
 }
 
 .btn-salvarAlteracoes:hover {
-  background-color: var(--cor-hover-border-primeiro);
-  color: var(--cor-fonte-segundo);
+  background-color: var(--cor-hover-border-segundo);
+  font-weight: 600;
 }
 @media screen and (max-width: 540px) {
   .input-categoria {

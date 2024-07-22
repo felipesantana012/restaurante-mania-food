@@ -60,13 +60,14 @@
   border: none;
   color: var(--cor-fonte-segundo);
   font-weight: 500;
-  opacity: 0.9;
+
   background-color: var(--cor-hover-border-primeiro);
   transition: all 0.3s ease-in-out;
   box-shadow: var(--cor-box-shadow);
 }
 
 .form-login .btn:hover {
+  font-weight: 600;
   background-color: var(--cor-hover-border-segundo);
 }
 

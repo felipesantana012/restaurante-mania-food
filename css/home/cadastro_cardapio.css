@@ -27,14 +27,14 @@
   padding: 10px;
   border-radius: 10px;
   cursor: pointer;
-  font-weight: 600;
+  font-weight: 500;
   transition: all 0.3s ease-in-out;
-  color: var(--cor-fonte-segundo);
   background-color: var(--cor-hover-border-primeiro);
 }
 
 .cadastro_cardapio .btn-cadastro:hover {
   background-color: var(--cor-hover-border-segundo);
+  font-weight: 600;
 }
 
 /* Cadastro de itens */
