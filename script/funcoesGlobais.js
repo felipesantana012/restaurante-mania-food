@@ -22,6 +22,15 @@ const verificacaoAcessoPagina = () => {
   }
 };
 
+const visualizarSenha = () => {
+  const senha = document.getElementById("senha");
+  const toggleIcone = document.querySelector(".senha__input-icone i");
+  senha.type = senha.type === "password" ? "text" : "password";
+  toggleIcone.classList.toggle("fa-eye");
+  toggleIcone.classList.toggle("fa-eye-slash");
+};
+
+window.visualizarSenha = visualizarSenha;
 window.mensagemErro = mensagemErro;
 window.sair = sair;
 window.verificacaoAcessoPagina = verificacaoAcessoPagina;
