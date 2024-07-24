@@ -6,8 +6,9 @@ export const getItensAll = async () => {
   try {
     const cardapio = await getCardapio();
     return cardapio.flatMap((item) => item.itens);
-  } catch (error) {
-    console.error("Erro ao obter itens:", error);
+  } catch (e) {
+    console.error("Erro ao obter todos os itens:", e);
+    throw new Error("Ocorreu um problema ao obter todos os itens.");
   }
 };
 
@@ -16,8 +17,9 @@ export const getItens = async () => {
   try {
     const cardapio = await getCardapio();
     return cardapio.map((item) => item.itens);
-  } catch (error) {
-    console.error("Erro ao obter itens:", error);
+  } catch (e) {
+    console.error("Erro ao obter itens:", e);
+    throw new Error("Ocorreu um problema ao obter itens.");
   }
 };
 
@@ -31,27 +33,29 @@ export const postItemACategoria = async (categoriaId, item) => {
     const cardapio = await getCardapio();
     const categoriaIndex = cardapio.findIndex((cat) => cat.id === categoriaId);
     if (categoriaIndex === -1) {
-      throw new Error(`Categoria não encontrada: ${categoriaId}`);
+      console.error(`Categoria não encontrada: ${categoriaId}`);
     }
     cardapio[categoriaIndex].itens.push(item);
 
     // Atualizar a categoria específica
     const res = await fetch(`${URL_CARDAPIO}/${categoriaId}`, {
-      method: "PUT", // Ou PATCH, se necessário
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(cardapio[categoriaIndex]),
     });
     if (!res.ok) {
-      throw new Error(`Erro ao adicionar item: ${res.statusText}`);
+      console.error(`Erro ao adicionar item: ${res.statusText}`);
     }
     return await res.json();
-  } catch (err) {
-    console.error("Erro ao adicionar item:", err);
+  } catch (e) {
+    console.error("Erro ao adicionar item:", e);
+    throw new Error("Ocorreu um problema ao adicionar item.");
   }
 };
 
+// // Função para deletar um item de uma categoria
 export const deletarItem = async (categoriaId, itemId) => {
   try {
     const response = await fetch(`${URL_CARDAPIO}/${categoriaId}`);
@@ -59,7 +63,8 @@ export const deletarItem = async (categoriaId, itemId) => {
     categoria.itens = categoria.itens.filter((i) => i.id !== itemId);
     await putCategoria(categoriaId, categoria);
     return true;
-  } catch (err) {
-    console.error("Erro ao deletar item:", err);
+  } catch (e) {
+    console.error("Erro ao deletar item:", e);
+    throw new Error("Ocorreu um problema ao deletar item");
   }
 };

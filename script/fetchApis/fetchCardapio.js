@@ -5,11 +5,12 @@ export const getCardapio = async () => {
   try {
     const res = await fetch(URL_CARDAPIO);
     if (!res.ok) {
-      throw new Error(`HTTP error! status: ${res.status}`);
+      console.error(`HTTP Error! status: ${res.status}`);
     }
     return await res.json();
-  } catch (error) {
-    console.error("Erro ao buscar o cardápio:", error);
+  } catch (e) {
+    console.error("Erro ao buscar o cardápio:", e);
+    throw new Error("Ocorreu um problema ao buscar o cardápio.");
   }
 };
 
@@ -24,11 +25,11 @@ export const putCardapio = async (novoCardapio) => {
       body: JSON.stringify(novoCardapio),
     });
     if (!res.ok) {
-      throw new Error(`Erro ao atualizar o cardápio: ${res.statusText}`);
+      console.error(`HTTP Error! status: ${res.status}`);
     }
     return await res.json();
-  } catch (err) {
-    console.error("Erro ao atualizar cardápio:", err);
-    throw err;
+  } catch (e) {
+    console.error("Erro ao atualizar cardápio:", e);
+    throw new Error("Ocorreu um problema ao atualizar o cardápio.");
   }
 };

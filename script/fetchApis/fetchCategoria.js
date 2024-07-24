@@ -6,7 +6,8 @@ export const getCategorias = async () => {
     const cardapio = await getCardapio();
     return cardapio.map((item) => item.categoria);
   } catch (e) {
-    throw new Error(`Erro ao obter as categorias: ${e}`);
+    console.error(`Erro ao obter as categorias: ${e}`);
+    throw new Error("Ocorreu um problema ao buscar as categorias.");
   }
 };
 
@@ -16,11 +17,11 @@ const getCategoria = async (categoriaId) => {
     const cardapio = await getCardapio();
     const categoria = cardapio.find((cat) => cat.id === categoriaId);
     if (!categoria) {
-      throw new Error(`Categoria não encontrada: ${categoriaId}`);
+      console.error(`Categoria não encontrada: ${categoriaId}`);
     }
     return categoria;
   } catch (e) {
-    throw new Error(`Erro ao buscar categoria: ${e}`);
+    throw new Error("Ocorreu um problema ao buscar categoria.");
   }
 };
 
@@ -31,7 +32,8 @@ export const deletarCategoria = async (id) => {
       method: "DELETE",
     });
   } catch (e) {
-    throw new Error(`Erro ao deletar categoria: ${e}`);
+    console.error(`Erro ao deletar categoria: ${e}`);
+    throw new Error("Ocorreu um problema ao deletar categoria.");
   }
 };
 
@@ -46,11 +48,12 @@ export const postCategoria = async (categoria) => {
       body: JSON.stringify(categoria),
     });
     if (!res.ok) {
-      throw new Error(`Erro ao adicionar categoria: ${res.statusText}`);
+      console.error(`Erro ao adicionar categoria: ${res.statusText}`);
     }
     return await res.json();
   } catch (e) {
-    throw new Error(`Erro ao adicionar categoria: ${e}`);
+    console.error(`Erro ao adicionar categoria: ${e}`);
+    throw new Error("Ocorreu um problema ao adicionar categoria.");
   }
 };
 
@@ -65,6 +68,7 @@ export const putCategoria = async (categoriaId, categoria) => {
       body: JSON.stringify(categoria),
     });
   } catch (e) {
-    throw new Error(`Erro ao atualizar categoria: ${e}`);
+    console.error(`Erro ao Atualizar categoria: ${e}`);
+    throw new Error("Ocorreu um problema ao atualizar categoria.");
   }
 };
