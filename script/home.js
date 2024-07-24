@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
   window.verificacaoAcessoPagina();
 
   const categoriaForm = document.getElementById("categoriaForm");
+
   const itemForm = document.getElementById("itemForm");
   const categoriaSelect = document.querySelectorAll(".categoriaSelect");
   const categoriaSelectEdicao = document.querySelector(
@@ -19,8 +20,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const carregarCategorias = async () => {
     try {
       cardapioData = await getCardapio();
-      // categoriaSelect.forEach((select) => (select.innerHTML = ""));
-
       cardapioContainer.innerHTML = "";
 
       cardapioData.forEach((categoria) => {
@@ -32,17 +31,17 @@ document.addEventListener("DOMContentLoaded", () => {
         });
       });
 
-      // Adiciona evento de mudança no select
       categoriaSelectEdicao.addEventListener("change", (event) => {
         const categoriaId = event.target.value;
         if (categoriaId) {
           renderizarCategoria(categoriaId);
         } else {
-          cardapioContainer.innerHTML = ""; // Limpa o container se nenhuma categoria for selecionada
+          cardapioContainer.innerHTML = "";
         }
       });
-    } catch (err) {
-      console.error("Erro ao carregar categorias:", err);
+    } catch (e) {
+      console.error("Error: ", e);
+      alert(e.message);
     }
   };
 
@@ -91,7 +90,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <input type="text" value="${item.img}" required class="inputs item-img">
         </label>
         
-        <button onclick="deletarItem('${categoria.id}', ${item.id})" class="btn-deletar deletar-item">Deletar Item</button>
+        <button onclick="deleteItem('${categoria.id}', ${item.id})" class="btn-deletar deletar-item" data-id="${item.id}">Deletar Item</button>
       `;
       itensContainer.appendChild(itemDiv);
     });
@@ -103,14 +102,20 @@ document.addEventListener("DOMContentLoaded", () => {
     cardapioContainer.appendChild(categoriaContainer);
   };
 
-  categoriaForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
+  categoriaForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
     const categoria = {
       categoria: document.getElementById("categoriaInput").value,
       itens: [],
     };
-    postCategoria(categoria);
-    // alert("Categoria adicionada com sucesso!");
+
+    try {
+      await postCategoria(categoria);
+      alert("Categoria adicionado com sucesso");
+    } catch (e) {
+      console.error("Error: ", e);
+      alert(e.message);
+    }
   });
 
   itemForm.addEventListener("submit", async (e) => {
@@ -127,9 +132,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     try {
       postItemACategoria(categoriaId, item);
-      // alert("Item Adicionado com sucesso");
-    } catch (err) {
-      console.error("Erro ao adicionar item:", err);
+      alert("Item Adicionado com sucesso");
+    } catch (e) {
+      console.error("Error: ", e);
+      alert(e.message);
     }
   });
 
@@ -142,7 +148,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const itensAtualizados = Array.from(
       document.querySelectorAll(".cardapioContainer-item")
     ).map((itemDiv) => {
-      const id = itemDiv.querySelector(".item-nome").dataset.itemId;
+      const id = itemDiv.querySelector(`[data-id]`).getAttribute("data-id");
       return {
         id: Number(id),
         nome: itemDiv.querySelector(".item-nome").value,
@@ -163,32 +169,34 @@ document.addEventListener("DOMContentLoaded", () => {
       await putCardapio(categoriaAtualizada);
       alert("Categoria atualizada com sucesso!");
       carregarCategorias();
-    } catch (err) {
-      console.error("Erro ao atualizar categoria:", err);
+    } catch (e) {
+      console.error("Error :", e);
+      alert(e.message);
     }
   };
 
   window.deleteCategoria = async (id) => {
     if (confirm("Tem certeza que deseja deletar esta categoria?")) {
-      await deletarCategoria(id);
-      if (deletarCategoria) {
+      try {
+        await deletarCategoria(id);
         alert("Categoria deletada com sucesso!");
+      } catch (e) {
+        console.error("Error :", e);
+        alert(e.message);
       }
     }
   };
 
-  window.deletarItem = async (categoriaId, itemId) => {
+  window.deleteItem = async (categoriaId, itemId) => {
     if (confirm("Tem certeza que deseja deletar este item?")) {
       try {
         await deletarItem(categoriaId, itemId);
-        if (deletarItem) {
-          alert("Item deletado com sucesso!");
-        }
+        alert("Item deletado com sucesso!");
       } catch (err) {
-        console.error("Erro ao deletar item:", err);
+        console.error("Error :", e);
+        alert(e.message);
       }
     }
   };
-
   carregarCategorias();
 });

@@ -38,7 +38,7 @@ export const deletarCategoria = async (id) => {
 };
 
 // // Função para adicionar uma nova categoria
-export const postCategoria = async (categoria) => {
+const postCategoria = async (categoria) => {
   try {
     const res = await fetch(URL_CARDAPIO, {
       method: "POST",
@@ -72,3 +72,5 @@ export const putCategoria = async (categoriaId, categoria) => {
     throw new Error("Ocorreu um problema ao atualizar categoria.");
   }
 };
+
+export { postCategoria };
