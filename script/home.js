@@ -1,12 +1,6 @@
-// import { postCategoria, deletarCategoria } from "./fetchApis/fetchCategoria.js";
-// import { postItemACategoria, deletarItem } from "./fetchApis/fetchItens.js";
-import {
-  getCardapio,
-  postCategoria,
-  postItemACategoria,
-  deletarCategoria,
-  deletarItem,
-} from "./fetchApis/fetchCardapio.js";
+import { getCardapio, putCardapio } from "./fetchApis/fetchCardapio.js";
+import { postCategoria, deletarCategoria } from "./fetchApis/fetchCategoria.js";
+import { deletarItem, postItemACategoria } from "./fetchApis/fetchItens.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   window.verificacaoAcessoPagina();
@@ -19,7 +13,6 @@ document.addEventListener("DOMContentLoaded", () => {
   );
   const categoriaSelectEnvio = document.querySelector(".categoriaSelectEnvio");
   const cardapioContainer = document.getElementById("cardapioContainer");
-  const salvarAlteracoesBtn = document.getElementById("salvarAlteracoesBtn");
 
   let cardapioData = [];
 
@@ -97,11 +90,16 @@ document.addEventListener("DOMContentLoaded", () => {
         <label for="">Imagem
           <input type="text" value="${item.img}" required class="inputs item-img">
         </label>
+        
         <button onclick="deletarItem('${categoria.id}', ${item.id})" class="btn-deletar deletar-item">Deletar Item</button>
       `;
       itensContainer.appendChild(itemDiv);
     });
     categoriaContainer.appendChild(itensContainer);
+    const btn = document.createElement("div");
+    btn.className = "item_btn-salvarAlteracoes";
+    btn.innerHTML = `<button onclick="atualizarCategoria('${categoria.id}')" class="btn-salvarAlteracoes">Salvar Alterações</button>`;
+    categoriaContainer.appendChild(btn);
     cardapioContainer.appendChild(categoriaContainer);
   };
 
@@ -112,14 +110,12 @@ document.addEventListener("DOMContentLoaded", () => {
       itens: [],
     };
     postCategoria(categoria);
-    alert("Categoria adicionada com sucesso!");
-    carregarCategorias();
+    // alert("Categoria adicionada com sucesso!");
   });
 
   itemForm.addEventListener("submit", async (e) => {
     e.preventDefault();
     const categoriaId = categoriaSelectEnvio.value;
-    console.log("Categoria selecionada:", categoriaId);
     const item = {
       id: Date.now(),
       nome: document.getElementById("nomeInput").value,
@@ -131,75 +127,52 @@ document.addEventListener("DOMContentLoaded", () => {
 
     try {
       postItemACategoria(categoriaId, item);
-      carregarCategorias();
+      // alert("Item Adicionado com sucesso");
     } catch (err) {
       console.error("Erro ao adicionar item:", err);
     }
   });
 
-  const URL_CARDAPIO = "http://localhost:3000/cardapio";
-  salvarAlteracoesBtn.addEventListener("click", async () => {
-    const categoriaNomes = document.querySelectorAll(".categoria-nome");
-    categoriaNomes.forEach((input) => {
-      const catIndex = input.dataset.catIndex;
-      cardapioData[catIndex].categoria = input.value;
+  window.atualizarCategoria = async (categoriaId) => {
+    const categoria = cardapioData.find((cat) => cat.id === categoriaId);
+    if (!categoria) return;
+
+    const nomeCategoria = document.querySelector(".categoria-nome").value;
+
+    const itensAtualizados = Array.from(
+      document.querySelectorAll(".cardapioContainer-item")
+    ).map((itemDiv) => {
+      const id = itemDiv.querySelector(".item-nome").dataset.itemId;
+      return {
+        id: Number(id),
+        nome: itemDiv.querySelector(".item-nome").value,
+        precoOriginal: itemDiv.querySelector(".item-preco").value,
+        descricao: itemDiv.querySelector(".item-descricao").value,
+        tipo: itemDiv.querySelector(".item-tipo").value,
+        img: itemDiv.querySelector(".item-img").value,
+      };
     });
 
-    const itemNomes = document.querySelectorAll(".item-nome");
-    const itemImgs = document.querySelectorAll(".item-img");
-    const itemPrecos = document.querySelectorAll(".item-preco");
-    const itemDescricoes = document.querySelectorAll(".item-descricao");
-    const itemTipos = document.querySelectorAll(".item-tipo");
-
-    itemNomes.forEach((input) => {
-      const catIndex = input.dataset.catIndex;
-      const itemIndex = input.dataset.itemIndex;
-      cardapioData[catIndex].itens[itemIndex].nome = input.value;
-    });
-    itemImgs.forEach((input) => {
-      const catIndex = input.dataset.catIndex;
-      const itemIndex = input.dataset.itemIndex;
-      cardapioData[catIndex].itens[itemIndex].img = input.value;
-    });
-    itemPrecos.forEach((input) => {
-      const catIndex = input.dataset.catIndex;
-      const itemIndex = input.dataset.itemIndex;
-      cardapioData[catIndex].itens[itemIndex].precoOriginal = input.value;
-    });
-    itemDescricoes.forEach((input) => {
-      const catIndex = input.dataset.catIndex;
-      const itemIndex = input.dataset.itemIndex;
-      cardapioData[catIndex].itens[itemIndex].descricao = input.value;
-    });
-    itemTipos.forEach((input) => {
-      const catIndex = input.dataset.catIndex;
-      const itemIndex = input.dataset.itemIndex;
-      cardapioData[catIndex].itens[itemIndex].tipo = input.value;
-    });
+    const categoriaAtualizada = {
+      id: categoria.id,
+      categoria: nomeCategoria,
+      itens: itensAtualizados,
+    };
 
     try {
-      for (let categoria of cardapioData) {
-        await fetch(`${URL_CARDAPIO}/${categoria.id}`, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(categoria),
-        });
-      }
-      alert("Alterações salvas com sucesso!");
+      await putCardapio(categoriaAtualizada);
+      alert("Categoria atualizada com sucesso!");
       carregarCategorias();
     } catch (err) {
-      console.error("Erro ao salvar alterações:", err);
+      console.error("Erro ao atualizar categoria:", err);
     }
-  });
+  };
 
   window.deleteCategoria = async (id) => {
     if (confirm("Tem certeza que deseja deletar esta categoria?")) {
       await deletarCategoria(id);
       if (deletarCategoria) {
         alert("Categoria deletada com sucesso!");
-        carregarCategorias();
       }
     }
   };
@@ -210,7 +183,6 @@ document.addEventListener("DOMContentLoaded", () => {
         await deletarItem(categoriaId, itemId);
         if (deletarItem) {
           alert("Item deletado com sucesso!");
-          carregarCategorias();
         }
       } catch (err) {
         console.error("Erro ao deletar item:", err);
