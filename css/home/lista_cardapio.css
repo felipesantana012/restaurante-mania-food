@@ -28,6 +28,10 @@
   border-radius: 10px;
 }
 
+.categoriaSelectEdicao {
+  width: 50%;
+}
+
 .cardapioContainer-categoria {
   position: relative;
   display: flex;

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#222222">
-    <link rel="shortcut icon" href="./imgs/Logo-Mania-Food.png" type="image/x-icon">
+    <link rel="shortcut icon" href="../imgs/Logo-Mania-Food.png" type="image/x-icon">
     <link rel="stylesheet" href="/css/imports.css">
     <title>Home Restaurante</title>
 </head>
@@ -28,7 +28,7 @@
                 <h1>Cadastro do Cardapio</h1>
 
                 <div class="cadastro_cardapio-categoria">
-                    <form id="categoriaForm" class="form">
+                    <form id="categoriaForm" class="form ">
                         <h2>Cadastre nova categoria</h2>
                         <input type="text" id="categoriaInput" placeholder="Nome Da Categoria" class="inputs" required>
                         <button type="submit" class="btn-cadastro">Adicionar Categoria</button>
@@ -38,7 +38,7 @@
                 <div class="cadastro_cardapio-itens">
                     <form id="itemForm" class="form">
                         <h2>Cadastre Novo Item</h2>
-                        <select id="categoriaSelect" required class="inputs">
+                        <select required class="inputs categoriaSelect categoriaSelectEnvio">
                             <option value="">Selecione a Categoria</option>
                         </select>
                         <input type="text" id="nomeInput" placeholder="Nome do Item" class="inputs" required>
@@ -57,12 +57,18 @@
                 <div class="lista_todos_itens">
 
 
+                    <select required class="inputs categoriaSelect categoriaSelectEdicao">
+                        <option value="">Selecione a Categoria apara Edição</option>
+                    </select>
+
                     <div id="cardapioContainer" class="cardapioContainer">
 
 
                     </div>
 
                     <button id="salvarAlteracoesBtn" class="btn-salvarAlteracoes">Salvar Alterações</button>
+
+                </div>
             </section>
         </main>
 
@@ -79,6 +85,7 @@
 
     <script src="/script/home.js" type="module"></script>
     <script src="/script/funcoesGlobais.js" type="module"></script>
+    <script src="/script/fetchApis/fetchCardapio.js" type="module"></script>
 
 </body>
 

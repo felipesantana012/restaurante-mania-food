@@ -1,78 +1,108 @@
+// import { postCategoria, deletarCategoria } from "./fetchApis/fetchCategoria.js";
+// import { postItemACategoria, deletarItem } from "./fetchApis/fetchItens.js";
+import {
+  getCardapio,
+  postCategoria,
+  postItemACategoria,
+  deletarCategoria,
+  deletarItem,
+} from "./fetchApis/fetchCardapio.js";
+
 document.addEventListener("DOMContentLoaded", () => {
   window.verificacaoAcessoPagina();
+
   const categoriaForm = document.getElementById("categoriaForm");
   const itemForm = document.getElementById("itemForm");
-  const categoriaSelect = document.getElementById("categoriaSelect");
+  const categoriaSelect = document.querySelectorAll(".categoriaSelect");
+  const categoriaSelectEdicao = document.querySelector(
+    ".categoriaSelectEdicao"
+  );
+  const categoriaSelectEnvio = document.querySelector(".categoriaSelectEnvio");
   const cardapioContainer = document.getElementById("cardapioContainer");
   const salvarAlteracoesBtn = document.getElementById("salvarAlteracoesBtn");
 
   let cardapioData = [];
-  const urlCardapio = "http://localhost:3000/cardapio";
 
   const carregarCategorias = async () => {
     try {
-      const response = await fetch(urlCardapio);
-      cardapioData = await response.json();
-      categoriaSelect.innerHTML = "";
+      cardapioData = await getCardapio();
+      // categoriaSelect.forEach((select) => (select.innerHTML = ""));
+
       cardapioContainer.innerHTML = "";
 
-      cardapioData.forEach((categoria, catIndex) => {
-        const categoriaContainer = document.createElement("div");
-        categoriaContainer.className = "container_categoria-item";
-
-        const categoriaDiv = document.createElement("div");
-        categoriaDiv.className = "cardapioContainer-categoria";
-        categoriaDiv.innerHTML = `
-              <input type="text" value="${categoria.categoria}" data-cat-index="${catIndex}" class="categoria-nome  input-categoria">
-              <button onclick="deletarCategoria('${categoria.id}')" class="btn-deletar deletar-categoria"><i class="fa-solid fa-trash"></i></button>
-            `;
-
-        categoriaContainer.append(categoriaDiv);
-
-        const itensContainer = document.createElement("div");
-        itensContainer.className = "itens-container";
-        categoria.itens.forEach((item, itemIndex) => {
-          const itemDiv = document.createElement("div");
-          itemDiv.className = "cardapioContainer-item";
-          itemDiv.innerHTML = `
-                <label for="">Nome
-                <input type="text" value="${item.nome}" data-cat-index="${catIndex}" data-item-index="${itemIndex}" required class="inputs item-nome">
-                </label>
-
-                <label for="">Preço
-                <input type="number" value="${item.precoOriginal}" data-cat-index="${catIndex}" data-item-index="${itemIndex}" required class="inputs item-preco">
-                </label>
-
-                <label for="">Descrição
-                <input type="text" value="${item.descricao}" data-cat-index="${catIndex}" data-item-index="${itemIndex}" required class="inputs item-descricao">
-                </label>
-
-                <label for="">Tipo ou Tamanho
-                <input type="text" value="${item.tipo}" data-cat-index="${catIndex}" data-item-index="${itemIndex}" required class="inputs item-tipo">
-                </label>
-
-
-                <label for="">Imagem
-                <input type="text" value="${item.img}" data-cat-index="${catIndex}" data-item-index="${itemIndex}" required class="inputs item-img">
-                </label>
-                <button onclick="deletarItem('${categoria.id}', ${item.id})" class="btn-deletar deletar-item">Deletar Item</button>
-              `;
-          itensContainer.appendChild(itemDiv);
+      cardapioData.forEach((categoria) => {
+        categoriaSelect.forEach((select) => {
+          const option = document.createElement("option");
+          option.value = categoria.id;
+          option.textContent = categoria.categoria;
+          select.appendChild(option);
         });
-        categoriaContainer.appendChild(itensContainer);
-        cardapioContainer.appendChild(categoriaContainer);
       });
 
-      // Populate the select options
-      cardapioData.forEach((categoria) => {
-        const option = document.createElement("option");
-        option.value = categoria.id;
-        option.textContent = categoria.categoria;
-        categoriaSelect.appendChild(option);
+      // Adiciona evento de mudança no select
+      categoriaSelectEdicao.addEventListener("change", (event) => {
+        const categoriaId = event.target.value;
+        if (categoriaId) {
+          renderizarCategoria(categoriaId);
+        } else {
+          cardapioContainer.innerHTML = ""; // Limpa o container se nenhuma categoria for selecionada
+        }
       });
     } catch (err) {
       console.error("Erro ao carregar categorias:", err);
     }
+  };
+
+  const renderizarCategoria = (categoriaId) => {
+    const categoria = cardapioData.find((cat) => cat.id === categoriaId);
+    if (!categoria) return;
+
+    cardapioContainer.innerHTML = "";
+
+    const categoriaContainer = document.createElement("div");
+    categoriaContainer.className = "container_categoria-item";
+
+    const categoriaDiv = document.createElement("div");
+    categoriaDiv.className = "cardapioContainer-categoria";
+    categoriaDiv.innerHTML = `
+      <input type="text" value="${categoria.categoria}" class="categoria-nome  input-categoria">
+      <button onclick="deleteCategoria('${categoria.id}')" class="btn-deletar deletar-categoria">
+        <i class="fa-solid fa-trash"></i>
+      </button>
+    `;
+    categoriaContainer.append(categoriaDiv);
+
+    const itensContainer = document.createElement("div");
+    itensContainer.className = "itens-container";
+    categoria.itens.forEach((item, itemIndex) => {
+      const itemDiv = document.createElement("div");
+      itemDiv.className = "cardapioContainer-item";
+      itemDiv.innerHTML = `
+        <label for="">Nome
+          <input type="text" value="${item.nome}" required class="inputs item-nome">
+        </label>
+  
+        <label for="">Preço
+          <input type="text" value="${item.precoOriginal}" required class="inputs item-preco">
+        </label>
+  
+        <label for="">Descrição
+          <input type="text" value="${item.descricao}" required class="inputs item-descricao">
+        </label>
+  
+        <label for="">Tipo ou Tamanho
+          <input type="text" value="${item.tipo}" required class="inputs item-tipo">
+        </label>
+  
+        <label for="">Imagem
+          <input type="text" value="${item.img}" required class="inputs item-img">
+        </label>
+        <button onclick="deletarItem('${categoria.id}', ${item.id})" class="btn-deletar deletar-item">Deletar Item</button>
+      `;
+      itensContainer.appendChild(itemDiv);
+    });
+    categoriaContainer.appendChild(itensContainer);
+    cardapioContainer.appendChild(categoriaContainer);
   };
 
   categoriaForm.addEventListener("submit", async (e) => {
@@ -81,25 +111,15 @@ document.addEventListener("DOMContentLoaded", () => {
       categoria: document.getElementById("categoriaInput").value,
       itens: [],
     };
-
-    try {
-      await fetch(urlCardapio, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(categoria),
-      });
-      alert("Categoria adicionada com sucesso!");
-      carregarCategorias();
-    } catch (err) {
-      console.error("Erro ao adicionar categoria:", err);
-    }
+    postCategoria(categoria);
+    alert("Categoria adicionada com sucesso!");
+    carregarCategorias();
   });
 
   itemForm.addEventListener("submit", async (e) => {
     e.preventDefault();
-    const categoriaId = categoriaSelect.value;
+    const categoriaId = categoriaSelectEnvio.value;
+    console.log("Categoria selecionada:", categoriaId);
     const item = {
       id: Date.now(),
       nome: document.getElementById("nomeInput").value,
@@ -110,24 +130,14 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     try {
-      const response = await fetch(`${urlCardapio}/${categoriaId}`);
-      const categoria = await response.json();
-      categoria.itens.push(item);
-
-      await fetch(`${urlCardapio}/${categoriaId}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(categoria),
-      });
-      alert("Item adicionado com sucesso!");
+      postItemACategoria(categoriaId, item);
       carregarCategorias();
     } catch (err) {
       console.error("Erro ao adicionar item:", err);
     }
   });
 
+  const URL_CARDAPIO = "http://localhost:3000/cardapio";
   salvarAlteracoesBtn.addEventListener("click", async () => {
     const categoriaNomes = document.querySelectorAll(".categoria-nome");
     categoriaNomes.forEach((input) => {
@@ -169,7 +179,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     try {
       for (let categoria of cardapioData) {
-        await fetch(`${urlCardapio}/${categoria.id}`, {
+        await fetch(`${URL_CARDAPIO}/${categoria.id}`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
@@ -184,16 +194,12 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  window.deletarCategoria = async (id) => {
+  window.deleteCategoria = async (id) => {
     if (confirm("Tem certeza que deseja deletar esta categoria?")) {
-      try {
-        await fetch(`http://localhost:3000/cardapio/${id}`, {
-          method: "DELETE",
-        });
+      await deletarCategoria(id);
+      if (deletarCategoria) {
         alert("Categoria deletada com sucesso!");
         carregarCategorias();
-      } catch (err) {
-        console.error("Erro ao deletar categoria:", err);
       }
     }
   };
@@ -201,19 +207,11 @@ document.addEventListener("DOMContentLoaded", () => {
   window.deletarItem = async (categoriaId, itemId) => {
     if (confirm("Tem certeza que deseja deletar este item?")) {
       try {
-        const response = await fetch(`${urlCardapio}/${categoriaId}`);
-        const categoria = await response.json();
-        categoria.itens = categoria.itens.filter((i) => i.id !== itemId);
-
-        await fetch(`${urlCardapio}/${categoriaId}`, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(categoria),
-        });
-        alert("Item deletado com sucesso!");
-        carregarCategorias();
+        await deletarItem(categoriaId, itemId);
+        if (deletarItem) {
+          alert("Item deletado com sucesso!");
+          carregarCategorias();
+        }
       } catch (err) {
         console.error("Erro ao deletar item:", err);
       }
