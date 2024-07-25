@@ -159,7 +159,7 @@ document.addEventListener("DOMContentLoaded", () => {
     e.preventDefault();
     const categoriaId = categoriaSelectEnvio.value;
     const item = {
-      id: Date.now(),
+      id: Date.now().toString(),
       nome: document.getElementById("nomeInput").value,
       img: document.getElementById("imgInput").value,
       precoOriginal: document.getElementById("precoInput").value,
@@ -194,7 +194,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const promocaoDia = itemDiv.querySelector(".item-radio").checked;
 
       return {
-        id: Number(id),
+        id: Number(id).toString(),
         nome: itemDiv.querySelector(".item-nome").value,
         precoOriginal: itemDiv.querySelector(".item-preco").value,
         descricao: itemDiv.querySelector(".item-descricao").value,

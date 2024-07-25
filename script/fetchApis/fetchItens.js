@@ -60,7 +60,9 @@ export const deletarItem = async (categoriaId, itemId) => {
   try {
     const response = await fetch(`${URL_CARDAPIO}/${categoriaId}`);
     const categoria = await response.json();
-    categoria.itens = categoria.itens.filter((i) => i.id !== itemId);
+    categoria.itens = categoria.itens.filter(
+      (i) => i.id.toString() !== itemId.toString()
+    );
     await putCategoria(categoriaId, categoria);
     return true;
   } catch (e) {
