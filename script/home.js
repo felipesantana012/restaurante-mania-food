@@ -2,6 +2,8 @@ import { getCardapio, putCardapio } from "./fetchApis/fetchCardapio.js";
 import { postCategoria, deletarCategoria } from "./fetchApis/fetchCategoria.js";
 import { deletarItem, postItemACategoria } from "./fetchApis/fetchItens.js";
 
+import { updatePromocaoDia } from "./fetchApis/fetchPromocaoDia.js";
+
 document.addEventListener("DOMContentLoaded", () => {
   window.verificacaoAcessoPagina();
 
@@ -71,26 +73,49 @@ document.addEventListener("DOMContentLoaded", () => {
       itemDiv.className = "cardapioContainer-item";
       itemDiv.innerHTML = `
         <label for="">Nome
-          <input type="text" value="${item.nome}" required class="inputs item-nome">
+          <input type="text" value="${
+            item.nome
+          }" required class="inputs item-nome">
         </label>
   
         <label for="">Preço
-          <input type="text" value="${item.precoOriginal}" required class="inputs item-preco">
+          <input type="text" value="${
+            item.precoOriginal
+          }" required class="inputs item-preco">
         </label>
   
         <label for="">Descrição
-          <input type="text" value="${item.descricao}" required class="inputs item-descricao">
+          <input type="text" value="${
+            item.descricao
+          }" required class="inputs item-descricao">
         </label>
   
         <label for="">Tipo ou Tamanho
-          <input type="text" value="${item.tipo}" required class="inputs item-tipo">
+          <input type="text" value="${
+            item.tipo
+          }" required class="inputs item-tipo">
         </label>
   
         <label for="">Imagem
-          <input type="text" value="${item.img}" required class="inputs item-img">
+          <input type="text" value="${
+            item.img
+          }" required class="inputs item-img">
         </label>
         
-        <button onclick="deleteItem('${categoria.id}', ${item.id})" class="btn-deletar deletar-item" data-id="${item.id}">Deletar Item</button>
+        <button onclick="deleteItem('${categoria.id}', ${
+        item.id
+      })" class="btn-deletar deletar-item" data-id="${
+        item.id
+      }">Deletar Item</button>
+       
+  
+
+      <input type="radio" name="promocaoDia" id="radio-${
+        item.id
+      }" class="item-radio" data-id="${item.id}" ${
+        item.promocaoDia ? "checked" : ""
+      }>
+    
       `;
       itensContainer.appendChild(itemDiv);
     });
@@ -142,13 +167,20 @@ document.addEventListener("DOMContentLoaded", () => {
   window.atualizarCategoria = async (categoriaId) => {
     const categoria = cardapioData.find((cat) => cat.id === categoriaId);
     if (!categoria) return;
+    try {
+      await updatePromocaoDia();
+    } catch (e) {
+      console.error("Erro ao atualizar Promoção do dia dos itens:", e);
+    }
 
     const nomeCategoria = document.querySelector(".categoria-nome").value;
 
     const itensAtualizados = Array.from(
       document.querySelectorAll(".cardapioContainer-item")
     ).map((itemDiv) => {
-      const id = itemDiv.querySelector(`[data-id]`).getAttribute("data-id");
+      const id = itemDiv.querySelector(".btn-deletar").getAttribute("data-id");
+      const promocaoDia = itemDiv.querySelector(".item-radio").checked;
+
       return {
         id: Number(id),
         nome: itemDiv.querySelector(".item-nome").value,
@@ -156,6 +188,7 @@ document.addEventListener("DOMContentLoaded", () => {
         descricao: itemDiv.querySelector(".item-descricao").value,
         tipo: itemDiv.querySelector(".item-tipo").value,
         img: itemDiv.querySelector(".item-img").value,
+        promocaoDia: promocaoDia,
       };
     });
 
@@ -168,10 +201,13 @@ document.addEventListener("DOMContentLoaded", () => {
     try {
       await putCardapio(categoriaAtualizada);
       alert("Categoria atualizada com sucesso!");
+      console.log(
+        "Item atualizado com promoção do dia:",
+        itensAtualizados.find((item) => item.promocaoDia)
+      );
       carregarCategorias();
-    } catch (e) {
-      console.error("Error :", e);
-      alert(e.message);
+    } catch (err) {
+      console.error("Erro ao atualizar categoria:", err);
     }
   };
 
