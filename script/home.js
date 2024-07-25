@@ -109,12 +109,24 @@ document.addEventListener("DOMContentLoaded", () => {
       }">Deletar Item</button>
        
   
-
-      <input type="radio" name="promocaoDia" id="radio-${
-        item.id
-      }" class="item-radio" data-id="${item.id}" ${
+      <div class="btn-radio-promocaoDia">
+      
+      <div class="wrap-check-29">
+          <div class="cbx">
+              <input type="radio" name="promocaoDia" id="radio-${
+                item.id
+              } cbx-29" class="item-radio" data-id="${item.id}" ${
         item.promocaoDia ? "checked" : ""
-      }>
+      } />
+              <label for="cbx-29"></label>
+              <svg width="15" height="14" viewbox="0 0 15 14" fill="none">
+                  <path d="M2 8.36364L6.23077 12L13 2"></path>
+              </svg>
+          </div>
+      </div>
+      <p>Promoção do dia<p/>
+    </div>
+
     
       `;
       itensContainer.appendChild(itemDiv);

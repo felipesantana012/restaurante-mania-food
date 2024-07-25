@@ -51,15 +51,27 @@
 }
 
 .cardapioContainer-item {
+  position: relative;
   box-shadow: var(--cor-box-shadow);
   background-color: var(--cor-background-primeiro);
   padding: 1rem;
+  padding-top: 2rem;
   border-radius: 10px;
   display: flex;
   flex-wrap: wrap;
   align-items: end;
   gap: 10px;
   margin-bottom: 1.5rem;
+}
+
+.btn-radio-promocaoDia {
+  display: flex;
+  gap: 0.3rem;
+  align-items: center;
+  position: absolute;
+  top: 0.3rem;
+  font-weight: 900;
+  color: var(--cor-fonte-terceiro);
 }
 
 .cardapioContainer-item label {
