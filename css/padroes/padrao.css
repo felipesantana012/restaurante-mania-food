@@ -6,6 +6,10 @@
   font-size: clamp(1rem, 1vw, 4rem);
 }
 
+input {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
 h1,
 h2,
 h3 {
