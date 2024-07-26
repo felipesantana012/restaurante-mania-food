@@ -83,24 +83,24 @@ document.addEventListener("DOMContentLoaded", () => {
             item.precoOriginal
           }" required class="inputs item-preco">
         </label>
-  
-        <label for="">Descrição
-          <input type="text" value="${
-            item.descricao
-          }" required class="inputs item-descricao">
-        </label>
-  
+
         <label for="">Tipo ou Tamanho
-          <input type="text" value="${
-            item.tipo
-          }" required class="inputs item-tipo">
-        </label>
-  
+        <input type="text" value="${
+          item.tipo
+        }" required class="inputs item-tipo">
+      </label>
+      
         <label for="">Imagem
           <input type="text" value="${
             item.img
           }" required class="inputs item-img">
         </label>
+
+        <label for="">Descrição
+        <input type="text" value="${
+          item.descricao
+        }" required class="inputs item-descricao">
+      </label>
         
         <button onclick="deleteItem('${categoria.id}', ${
         item.id

@@ -92,7 +92,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   try {
     const user = await getUsuario();
-    console.log(user);
 
     //dados login
     document.getElementById("nome").value = user.nome;
