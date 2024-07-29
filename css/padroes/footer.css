@@ -10,26 +10,12 @@ footer {
 
 footer ul {
   display: flex;
+  flex-direction: column-reverse;
+  text-align: center;
   list-style: none;
   gap: 15px;
 }
 
 footer ul li {
-  padding: 0.5rem;
-  border-radius: 50%;
-  border: 1px solid var(--cor-hover-border-segundo);
-  transition: all 0.3s ease-in-out;
-}
-
-footer ul li i {
-  font-size: 20px;
-  color: var(--cor-fonte-primeiro);
-}
-
-footer ul li i:hover {
-  transform: scale(1.1);
-}
-
-footer ul li:hover {
-  background-color: var(--cor-hover-border-primeiro);
+  color: var(--cor-hover-border-primeiro);
 }

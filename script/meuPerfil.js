@@ -94,8 +94,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     const user = await getUsuario();
 
     //dados login
-    document.getElementById("nome").value = user.nome;
-    document.getElementById("senha").value = user.senha;
+    document.getElementById("nome").value = user.login.nome;
+    document.getElementById("senha").value = user.login.senha;
 
     //dados endereco
     document.getElementById("rua").value = user.endereco.rua;

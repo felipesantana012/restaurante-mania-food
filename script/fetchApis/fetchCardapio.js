@@ -1,4 +1,5 @@
-export const URL_CARDAPIO = "http://localhost:3000/cardapio";
+import { url } from "./url.js";
+export const URL_CARDAPIO = `${url}cardapio`;
 
 // Função para buscar o cardápio
 export const getCardapio = async () => {

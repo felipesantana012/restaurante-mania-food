@@ -1,4 +1,5 @@
-const URL_USUARIO = "http://localhost:3000/usuario";
+import { url } from "./url.js";
+const URL_USUARIO = `${url}usuario`;
 
 export const getUsuario = async () => {
   try {

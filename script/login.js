@@ -11,7 +11,7 @@ document
     try {
       const data = await getUsuario();
       if (data) {
-        const usuario = data.nome === nome && data.senha === senha;
+        const usuario = data.login.nome === nome && data.login.senha === senha;
 
         if (usuario) {
           let agora = new Date();
