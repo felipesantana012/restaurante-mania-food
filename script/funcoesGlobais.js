@@ -30,6 +30,13 @@ const visualizarSenha = () => {
   toggleIcone.classList.toggle("fa-eye-slash");
 };
 
+const converterParaNumero = (valor) => {
+  valor = valor.replace(",", ".");
+  valor = valor.replace(/[^0-9.]/g, "");
+  return parseFloat(valor);
+};
+
+window.converterParaNumero = converterParaNumero;
 window.visualizarSenha = visualizarSenha;
 window.mensagemErro = mensagemErro;
 window.sair = sair;

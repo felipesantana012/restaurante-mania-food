@@ -162,7 +162,9 @@ document.addEventListener("DOMContentLoaded", () => {
       id: Date.now().toString(),
       nome: document.getElementById("nomeInput").value,
       img: document.getElementById("imgInput").value,
-      precoOriginal: document.getElementById("precoInput").value,
+      precoOriginal: window.converterParaNumero(
+        document.getElementById("precoInput").value
+      ),
       descricao: document.getElementById("descricaoInput").value,
       tipo: document.getElementById("tipoInput").value,
     };
@@ -196,7 +198,9 @@ document.addEventListener("DOMContentLoaded", () => {
       return {
         id: Number(id).toString(),
         nome: itemDiv.querySelector(".item-nome").value,
-        precoOriginal: itemDiv.querySelector(".item-preco").value,
+        precoOriginal: window.converterParaNumero(
+          itemDiv.querySelector(".item-preco").value
+        ),
         descricao: itemDiv.querySelector(".item-descricao").value,
         tipo: itemDiv.querySelector(".item-tipo").value,
         img: itemDiv.querySelector(".item-img").value,
