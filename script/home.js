@@ -145,11 +145,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     try {
       await postCategoria(categoria);
-      alert("Categoria adicionado com sucesso");
+      await alertSucesso("Categoria adicionada com sucesso");
       window.location.reload();
     } catch (e) {
       console.error("Error: ", e);
-      alert(e.message);
+      alertErro(e.message);
     }
   });
 
@@ -168,12 +168,12 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     try {
-      postItemACategoria(categoriaId, item);
-      alert("Item Adicionado com sucesso");
+      await postItemACategoria(categoriaId, item);
+      await alertSucesso("Item Adicionado com sucesso");
       window.location.reload();
     } catch (e) {
       console.error("Error: ", e);
-      alert(e.message);
+      alertErro(e.message);
     }
   });
 
@@ -215,37 +215,28 @@ document.addEventListener("DOMContentLoaded", () => {
 
     try {
       await putCardapio(categoriaAtualizada);
-      alert("Categoria atualizada com sucesso!");
+      await alertSucesso("Categoria atualizada com sucesso!");
       window.location.reload();
     } catch (err) {
       console.error("Erro ao atualizar categoria:", err);
+      alertErro(err.message);
     }
   };
 
   window.deleteCategoria = async (id) => {
-    if (confirm("Tem certeza que deseja deletar esta categoria?")) {
-      try {
-        await deletarCategoria(id.toString());
-        alert("Categoria deletada com sucesso!");
-        window.location.reload();
-      } catch (e) {
-        console.error("Error :", e);
-        alert(e.message);
-      }
-    }
+    await window.alertDelete(
+      deletarCategoria,
+      [id],
+      "Todos os itens desta categoria também serão deletados!"
+    );
   };
 
   window.deleteItem = async (categoriaId, itemId) => {
-    if (confirm("Tem certeza que deseja deletar este item?")) {
-      try {
-        await deletarItem(categoriaId.toString(), itemId.toString());
-        alert("Item deletado com sucesso!");
-        window.location.reload();
-      } catch (err) {
-        console.error("Error :", e);
-        alert(e.message);
-      }
-    }
+    await window.alertDelete(
+      deletarItem,
+      [categoriaId, itemId],
+      "Tem certeza que deseja deletar esse item?"
+    );
   };
   carregarCategorias();
 });

@@ -36,6 +36,52 @@ const converterParaNumero = (valor) => {
   return parseFloat(valor);
 };
 
+const alertDelete = async (deletar, params, text) => {
+  try {
+    const result = await Swal.fire({
+      title: "Tem Certeza?",
+      text: text,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#059e00",
+      cancelButtonColor: "#ad0000",
+      reverseButtons: true,
+      confirmButtonText: "Sim, Deletar!",
+      cancelButtonText: "Não, cancelar!",
+    });
+
+    if (result.isConfirmed) {
+      await deletar(...params); // Usa o spread operator para passar os parâmetros
+      await Swal.fire({
+        title: "Deletado!",
+        text: "Deletado com sucesso",
+        icon: "success",
+      });
+
+      window.location.reload();
+    }
+  } catch (error) {
+    console.error("Error:", error);
+  }
+};
+
+const alertSucesso = async (texto) => {
+  await Swal.fire({
+    title: texto,
+    icon: "success",
+  });
+};
+
+const alertErro = async (texto) => {
+  await Swal.fire({
+    title: texto,
+    icon: "error",
+  });
+};
+
+window.alertErro = alertErro;
+window.alertSucesso = alertSucesso;
+window.alertDelete = alertDelete;
 window.converterParaNumero = converterParaNumero;
 window.visualizarSenha = visualizarSenha;
 window.mensagemErro = mensagemErro;

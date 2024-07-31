@@ -1,5 +1,4 @@
 import { getCardapio } from "./fetchCardapio.js";
-import { url } from "./url.js";
 import { URL_CARDAPIO } from "./fetchCardapio.js";
 
 export async function updatePromocaoDia() {

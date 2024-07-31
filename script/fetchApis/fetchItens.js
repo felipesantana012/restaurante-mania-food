@@ -50,7 +50,6 @@ export const postItemACategoria = async (categoriaId, item) => {
       body: JSON.stringify(cardapio[categoriaIndex]),
     });
     if (!res.ok) {
-      const errorMessage = await res.text(); // Captura a mensagem de erro do backend
       console.error(
         `Erro ao adicionar item: ${res.statusText} - ${errorMessage}`
       );
