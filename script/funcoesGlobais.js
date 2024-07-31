@@ -17,7 +17,9 @@ const verificacaoAcessoPagina = () => {
   let expiraEm = new Date(localStorage.getItem("expiraEm"));
   let agora = new Date();
   if (token == null || agora > expiraEm) {
-    alert("Seção expirada, Voce Precisa logar novamente para acessar a pagina");
+    alertErro(
+      "Seção expirada, Voce Precisa logar novamente para acessar a pagina"
+    );
     window.location.href = "/";
   }
 };
@@ -79,6 +81,23 @@ const alertErro = async (texto) => {
   });
 };
 
+const boasVindas = () => {
+  const logado = localStorage.getItem("logado");
+  const nome = localStorage.getItem("nome");
+  if (logado === "sim") {
+    Swal.fire({
+      position: "top-end",
+      icon: "success",
+      title: `Seja bem vindo ${nome}!`,
+      showConfirmButton: false,
+      timer: 2000,
+    });
+    localStorage.removeItem("logado");
+    localStorage.removeItem("nome");
+  }
+};
+
+window.boasVindas = boasVindas;
 window.alertErro = alertErro;
 window.alertSucesso = alertSucesso;
 window.alertDelete = alertDelete;

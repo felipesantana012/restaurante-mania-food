@@ -6,6 +6,7 @@ import { updatePromocaoDia } from "./fetchApis/fetchPromocaoDia.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   window.verificacaoAcessoPagina();
+  window.boasVindas();
 
   const categoriaForm = document.getElementById("categoriaForm");
 
