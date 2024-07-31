@@ -65,6 +65,7 @@ a {
 }
 
 .inputs {
+  color: var(--cor-fonte-segundo);
   padding: 8px;
   border: none;
   border-radius: 10px;
