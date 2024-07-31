@@ -3,7 +3,9 @@ import { getUsuario, putUsuario } from "./fetchApis/fetchUsuario.js";
 const validarInputs = (campos, nomeSecao = "") => {
   for (let campo of campos) {
     if (campo.length < 3 || campo == "") {
-      alert(`Os campos de ${nomeSecao} devem ser preenchidos corretamente`);
+      window.alertErro(
+        `Os campos de ${nomeSecao} devem ser preenchidos corretamente`
+      );
       return true;
     }
   }
@@ -18,19 +20,21 @@ const salvarLogin = async () => {
   }
   try {
     const usuarioAtual = await getUsuario();
-    // Criar objeto de atualização com apenas os campos modificados
     const usuarioAtualizado = {
       ...usuarioAtual,
-      ...(nome !== usuarioAtual.nome && { nome }),
-      ...(senha !== usuarioAtual.senha && { senha }),
+      login: {
+        ...usuarioAtual.login,
+        ...(nome !== usuarioAtual.login.nome && { nome }),
+        ...(senha !== usuarioAtual.login.senha && { senha }),
+      },
     };
     await putUsuario(usuarioAtualizado);
-    alert("Dados de Login Salvos com sucesso");
+    window.alertSucesso("Dados de Login Salvos com sucesso");
   } catch (e) {
-    alert("Error Login ADM: ", e.message);
+    console.error("Erro ao salvar login:", e);
+    window.alertErro("Error Login ADM: ", e.message);
   }
 };
-
 const salvarEndereco = async () => {
   const rua = document.getElementById("rua").value;
   const bairro = document.getElementById("bairro").value;
@@ -54,9 +58,9 @@ const salvarEndereco = async () => {
       },
     };
     await putUsuario(usuarioAtualizado);
-    alert("Dados de Endereco salvos com sucesso");
+    window.alertSucesso("Dados de Endereco salvos com sucesso");
   } catch (e) {
-    alert("Error Endereco: ", e.message);
+    window.alertErro("Error Endereco: ", e.message);
   }
 };
 
@@ -70,6 +74,7 @@ const salvarRedesSociais = async () => {
   }
   try {
     const usuarioAtual = await getUsuario();
+
     const usuarioAtualizado = {
       ...usuarioAtual,
       redeSociais: {
@@ -80,10 +85,10 @@ const salvarRedesSociais = async () => {
         ...(tiktok !== usuarioAtual.redeSociais.tiktok && { tiktok }),
       },
     };
-    await putUsuario(usuarioAtualizado);
-    alert("Dados de Rede Sociais salvos com sucesso");
+    await putUsuario(usuarioAtualizado, usuarioAtual._id);
+    window.alertSucesso("Dados de Rede Sociais salvos com sucesso");
   } catch (e) {
-    alert("Error Rede Sociais: ", e.message);
+    window.alertErro("Error Rede Sociais: ", e.message);
   }
 };
 
@@ -111,21 +116,21 @@ document.addEventListener("DOMContentLoaded", async () => {
     document.getElementById("tiktok").value = user.redeSociais.tiktok;
   } catch (error) {
     console.error("Erro ao carregar dados do usuário:", error);
-    alert("Erro ao carregar dados do usuário");
+    window.alertErro("Erro ao carregar dados do usuário");
   }
 
   const btnSalvarDadosLogin = document.getElementById("salvarDadosLogin");
-  btnSalvarDadosLogin.addEventListener("click", () => {
-    salvarLogin();
+  btnSalvarDadosLogin.addEventListener("click", async () => {
+    await salvarLogin();
   });
 
   const btnSalvarDadosEndereco = document.getElementById("salvarDadosEndereco");
-  btnSalvarDadosEndereco.addEventListener("click", () => {
-    salvarEndereco();
+  btnSalvarDadosEndereco.addEventListener("click", async () => {
+    await salvarEndereco();
   });
 
   const btnSalvarDadosRedes = document.getElementById("salvarDadosRedeSociais");
-  btnSalvarDadosRedes.addEventListener("click", () => {
-    salvarRedesSociais();
+  btnSalvarDadosRedes.addEventListener("click", async () => {
+    await salvarRedesSociais();
   });
 });

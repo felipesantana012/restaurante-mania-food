@@ -11,8 +11,7 @@ document
     try {
       const data = await getUsuario();
       if (data) {
-        const usuario =
-          data[0].login.nome === nome && data[0].login.senha === senha;
+        const usuario = data.login.nome === nome && data.login.senha === senha;
 
         if (usuario) {
           let agora = new Date();
@@ -23,7 +22,7 @@ document
           localStorage.setItem("token", token);
           localStorage.setItem("expiraEm", expiraEm.toISOString());
           localStorage.setItem("logado", "sim");
-          localStorage.setItem("nome", data[0].login.nome);
+          localStorage.setItem("nome", data.login.nome);
           window.location.href = "paginas/home.html";
         } else {
           window.mensagemErro("Usuário ou senha inválidos");

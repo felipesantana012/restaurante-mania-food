@@ -72,6 +72,7 @@ const alertSucesso = async (texto) => {
     title: texto,
     icon: "success",
   });
+  window.location.reload();
 };
 
 const alertErro = async (texto) => {
