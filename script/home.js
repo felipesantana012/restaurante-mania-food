@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
       cardapioData.forEach((categoria) => {
         categoriaSelect.forEach((select) => {
           const option = document.createElement("option");
-          option.value = categoria.id;
+          option.value = categoria._id;
           option.textContent = categoria.categoria;
           select.appendChild(option);
         });
@@ -48,7 +48,8 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   const renderizarCategoria = (categoriaId) => {
-    const categoria = cardapioData.find((cat) => cat.id === categoriaId);
+    const categoria = cardapioData.find((cat) => cat._id === categoriaId);
+
     if (!categoria) return;
 
     cardapioContainer.innerHTML = "";
@@ -59,8 +60,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const categoriaDiv = document.createElement("div");
     categoriaDiv.className = "cardapioContainer-categoria";
     categoriaDiv.innerHTML = `
-      <input type="text" value="${categoria.categoria}" class="categoria-nome  input-categoria">
-      <button onclick="deleteCategoria('${categoria.id}')" class="btn-deletar deletar-categoria">
+      <input type="text" value="${
+        categoria.categoria
+      }" class="categoria-nome  input-categoria">
+      <button onclick="deleteCategoria('${categoria._id.toString()}')" class="btn-deletar deletar-categoria">
         <i class="fa-solid fa-trash"></i>
       </button>
     `;
@@ -102,20 +105,14 @@ document.addEventListener("DOMContentLoaded", () => {
         }" required class="inputs item-descricao">
       </label>
         
-        <button onclick="deleteItem('${categoria.id}', ${
-        item.id
-      })" class="btn-deletar deletar-item" data-id="${
-        item.id
-      }">Deletar Item</button>
+      <button onclick="deleteItem('${categoria._id.toString()}', '${item._id.toString()}')" class="btn-deletar deletar-item" data-id="${item._id.toString()}">Deletar Item</button>
        
   
       <div class="btn-radio-promocaoDia">
       
       <div class="wrap-check-29">
           <div class="cbx">
-              <input type="radio" name="promocaoDia" id="radio-${
-                item.id
-              } cbx-29" class="item-radio" data-id="${item.id}" ${
+              <input type="radio" name="promocaoDia" id="cbx-29" class="item-radio" data-id="${item._id.toString()}" ${
         item.promocaoDia ? "checked" : ""
       } />
               <label for="cbx-29"></label>
@@ -134,7 +131,7 @@ document.addEventListener("DOMContentLoaded", () => {
     categoriaContainer.appendChild(itensContainer);
     const btn = document.createElement("div");
     btn.className = "item_btn-salvarAlteracoes";
-    btn.innerHTML = `<button onclick="atualizarCategoria('${categoria.id}')" class="btn-salvarAlteracoes">Salvar Alterações</button>`;
+    btn.innerHTML = `<button onclick="atualizarCategoria('${categoria._id}')" class="btn-salvarAlteracoes">Salvar Alterações</button>`;
     categoriaContainer.appendChild(btn);
     cardapioContainer.appendChild(categoriaContainer);
   };
@@ -149,6 +146,7 @@ document.addEventListener("DOMContentLoaded", () => {
     try {
       await postCategoria(categoria);
       alert("Categoria adicionado com sucesso");
+      window.location.reload();
     } catch (e) {
       console.error("Error: ", e);
       alert(e.message);
@@ -159,7 +157,6 @@ document.addEventListener("DOMContentLoaded", () => {
     e.preventDefault();
     const categoriaId = categoriaSelectEnvio.value;
     const item = {
-      id: Date.now().toString(),
       nome: document.getElementById("nomeInput").value,
       img: document.getElementById("imgInput").value,
       precoOriginal: window.converterParaNumero(
@@ -167,11 +164,13 @@ document.addEventListener("DOMContentLoaded", () => {
       ),
       descricao: document.getElementById("descricaoInput").value,
       tipo: document.getElementById("tipoInput").value,
+      promocaoDia: false,
     };
 
     try {
       postItemACategoria(categoriaId, item);
       alert("Item Adicionado com sucesso");
+      window.location.reload();
     } catch (e) {
       console.error("Error: ", e);
       alert(e.message);
@@ -179,7 +178,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   window.atualizarCategoria = async (categoriaId) => {
-    const categoria = cardapioData.find((cat) => cat.id === categoriaId);
+    const categoria = cardapioData.find((cat) => cat._id === categoriaId);
     if (!categoria) return;
     try {
       await updatePromocaoDia();
@@ -196,7 +195,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const promocaoDia = itemDiv.querySelector(".item-radio").checked;
 
       return {
-        id: Number(id).toString(),
+        id: id,
         nome: itemDiv.querySelector(".item-nome").value,
         precoOriginal: window.converterParaNumero(
           itemDiv.querySelector(".item-preco").value
@@ -209,7 +208,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     const categoriaAtualizada = {
-      id: categoria.id,
+      id: categoria._id,
       categoria: nomeCategoria,
       itens: itensAtualizados,
     };
@@ -217,11 +216,7 @@ document.addEventListener("DOMContentLoaded", () => {
     try {
       await putCardapio(categoriaAtualizada);
       alert("Categoria atualizada com sucesso!");
-      console.log(
-        "Item atualizado com promoção do dia:",
-        itensAtualizados.find((item) => item.promocaoDia)
-      );
-      carregarCategorias();
+      window.location.reload();
     } catch (err) {
       console.error("Erro ao atualizar categoria:", err);
     }
@@ -230,8 +225,9 @@ document.addEventListener("DOMContentLoaded", () => {
   window.deleteCategoria = async (id) => {
     if (confirm("Tem certeza que deseja deletar esta categoria?")) {
       try {
-        await deletarCategoria(id);
+        await deletarCategoria(id.toString());
         alert("Categoria deletada com sucesso!");
+        window.location.reload();
       } catch (e) {
         console.error("Error :", e);
         alert(e.message);
@@ -242,8 +238,9 @@ document.addEventListener("DOMContentLoaded", () => {
   window.deleteItem = async (categoriaId, itemId) => {
     if (confirm("Tem certeza que deseja deletar este item?")) {
       try {
-        await deletarItem(categoriaId, itemId);
+        await deletarItem(categoriaId.toString(), itemId.toString());
         alert("Item deletado com sucesso!");
+        window.location.reload();
       } catch (err) {
         console.error("Error :", e);
         alert(e.message);

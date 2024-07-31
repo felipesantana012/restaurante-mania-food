@@ -10,8 +10,10 @@ document
 
     try {
       const data = await getUsuario();
+      console.log(data);
       if (data) {
-        const usuario = data.login.nome === nome && data.login.senha === senha;
+        const usuario =
+          data[0].login.nome === nome && data[0].login.senha === senha;
 
         if (usuario) {
           let agora = new Date();
@@ -27,6 +29,6 @@ document
         }
       }
     } catch (error) {
-      window.mensagemErro(error.message);
+      window.mensagemErro("error" + error.message);
     }
   });

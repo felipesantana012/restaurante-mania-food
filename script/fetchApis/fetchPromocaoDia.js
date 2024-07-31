@@ -1,9 +1,11 @@
 import { getCardapio } from "./fetchCardapio.js";
+import { url } from "./url.js";
+import { URL_CARDAPIO } from "./fetchCardapio.js";
 
 export async function updatePromocaoDia() {
   const cardapio = await getCardapio();
 
-  // Atualize todos os itens para promocaoDia: true
+  // Atualize todos os itens para promocaoDia: false
   const updatedCardapio = cardapio.map((categoria) => {
     return {
       ...categoria,
@@ -14,9 +16,8 @@ export async function updatePromocaoDia() {
     };
   });
 
-  // Envie as atualizações para o JSON Server
   for (const categoria of updatedCardapio) {
-    await fetch(`http://localhost:3000/cardapio/${categoria.id}`, {
+    await fetch(`${URL_CARDAPIO}/${categoria._id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

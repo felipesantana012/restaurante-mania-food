@@ -31,10 +31,14 @@ export const postItemACategoria = async (categoriaId, item) => {
   }
   try {
     const cardapio = await getCardapio();
-    const categoriaIndex = cardapio.findIndex((cat) => cat.id === categoriaId);
+    const categoriaIndex = cardapio.findIndex(
+      (cat) => cat._id.toString() === categoriaId.toString()
+    );
     if (categoriaIndex === -1) {
       console.error(`Categoria não encontrada: ${categoriaId}`);
+      return;
     }
+    // Adiciona o novo item à categoria encontrada
     cardapio[categoriaIndex].itens.push(item);
 
     // Atualizar a categoria específica
@@ -46,7 +50,11 @@ export const postItemACategoria = async (categoriaId, item) => {
       body: JSON.stringify(cardapio[categoriaIndex]),
     });
     if (!res.ok) {
-      console.error(`Erro ao adicionar item: ${res.statusText}`);
+      const errorMessage = await res.text(); // Captura a mensagem de erro do backend
+      console.error(
+        `Erro ao adicionar item: ${res.statusText} - ${errorMessage}`
+      );
+      return;
     }
     return await res.json();
   } catch (e) {
@@ -61,7 +69,7 @@ export const deletarItem = async (categoriaId, itemId) => {
     const response = await fetch(`${URL_CARDAPIO}/${categoriaId}`);
     const categoria = await response.json();
     categoria.itens = categoria.itens.filter(
-      (i) => i.id.toString() !== itemId.toString()
+      (i) => i._id.toString() !== itemId.toString()
     );
     await putCategoria(categoriaId, categoria);
     return true;

@@ -8,7 +8,8 @@ export const getCardapio = async () => {
     if (!res.ok) {
       console.error(`HTTP Error! status: ${res.status}`);
     }
-    return await res.json();
+    const cardapio = await res.json();
+    return cardapio;
   } catch (e) {
     console.error("Erro ao buscar o cardápio:", e);
     throw new Error("Ocorreu um problema ao buscar o cardápio.");
