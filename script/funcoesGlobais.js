@@ -12,12 +12,12 @@ const sair = () => {
   window.location.href = "/";
 };
 
-const verificacaoAcessoPagina = () => {
+const verificacaoAcessoPagina = async () => {
   let token = localStorage.getItem("token");
   let expiraEm = new Date(localStorage.getItem("expiraEm"));
   let agora = new Date();
   if (token == null || agora > expiraEm) {
-    alertErro(
+    await alertErro(
       "Seção expirada, Voce Precisa logar novamente para acessar a pagina"
     );
     window.location.href = "/";
