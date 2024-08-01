@@ -44,7 +44,6 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     } catch (e) {
       console.error("Error: ", e);
-      alert(e.message);
     }
   };
 
