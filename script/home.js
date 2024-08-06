@@ -3,12 +3,11 @@ import { postCategoria, deletarCategoria } from "./fetchApis/fetchCategoria.js";
 import { deletarItem, postItemACategoria } from "./fetchApis/fetchItens.js";
 import { url } from "./fetchApis/url.js";
 import { updatePromocaoDia } from "./fetchApis/fetchPromocaoDia.js";
-import { deleteImage, uploadImage } from "./fetchApis/fetchImgs.js";
+import { uploadImage } from "./fetchApis/fetchImgs.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   window.verificacaoAcessoPagina();
   window.boasVindas();
-
   const categoriaForm = document.getElementById("categoriaForm");
 
   const itemForm = document.getElementById("itemForm");

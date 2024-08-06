@@ -4,7 +4,7 @@ export const uploadImage = async (file) => {
   const formData = new FormData();
   formData.append("imgInput", file);
 
-  const response = await fetch(`${url}/upload`, {
+  const response = await fetch(`${url}/uploads`, {
     method: "POST",
     body: formData,
   });
@@ -18,7 +18,7 @@ export const uploadImage = async (file) => {
 };
 
 export const deleteImage = async (filename) => {
-  const response = await fetch(`${url}/upload/${filename}`, {
+  const response = await fetch(`${url}/uploads/${filename}`, {
     method: "DELETE",
   });
 
@@ -28,21 +28,4 @@ export const deleteImage = async (filename) => {
 
   const result = await response.json();
   return result.mensagem;
-};
-
-export const updateImage = async (oldFilename, newFile) => {
-  const formData = new FormData();
-  formData.append("imgInput", newFile);
-
-  const response = await fetch(`${url}/upload/${oldFilename}`, {
-    method: "PUT",
-    body: formData,
-  });
-
-  if (!response.ok) {
-    throw new Error("Erro ao atualizar a imagem");
-  }
-
-  const result = await response.json();
-  return result.imgPath;
 };
