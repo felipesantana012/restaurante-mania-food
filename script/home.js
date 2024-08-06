@@ -1,8 +1,9 @@
 import { getCardapio, putCardapio } from "./fetchApis/fetchCardapio.js";
 import { postCategoria, deletarCategoria } from "./fetchApis/fetchCategoria.js";
 import { deletarItem, postItemACategoria } from "./fetchApis/fetchItens.js";
-
+import { url } from "./fetchApis/url.js";
 import { updatePromocaoDia } from "./fetchApis/fetchPromocaoDia.js";
+import { deleteImage, uploadImage } from "./fetchApis/fetchImgs.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   window.verificacaoAcessoPagina();
@@ -75,6 +76,8 @@ document.addEventListener("DOMContentLoaded", () => {
       const itemDiv = document.createElement("div");
       itemDiv.className = "cardapioContainer-item";
       itemDiv.innerHTML = `
+
+      <div class="listaInputs">
         <label for="">Nome
           <input type="text" value="${
             item.nome
@@ -91,28 +94,23 @@ document.addEventListener("DOMContentLoaded", () => {
         <input type="text" value="${
           item.tipo
         }" required class="inputs item-tipo">
-      </label>
-      
-        <label for="">Imagem
-          <input type="text" value="${
-            item.img
-          }" required class="inputs item-img">
         </label>
+      
+      
 
         <label for="">Descrição
         <input type="text" value="${
           item.descricao
         }" required class="inputs item-descricao">
-      </label>
+        </label>
         
-      <button onclick="deleteItem('${categoria._id.toString()}', '${item._id.toString()}')" class="btn-deletar deletar-item" data-id="${item._id.toString()}">Deletar Item</button>
-       
-  
-      <div class="btn-radio-promocaoDia">
+
+     
+        <div class="btn-radio-promocaoDia">
       
-      <div class="wrap-check-29">
+        <div class="wrap-check-29">
           <div class="cbx">
-              <input type="radio" name="promocaoDia" id="cbx-29" class="item-radio" data-id="${item._id.toString()}" ${
+              <input type="radio" name="promocaoDia" id="cbx-29" class="item-radio" data-id="${item._id.toString()} "  ${
         item.promocaoDia ? "checked" : ""
       } />
               <label for="cbx-29"></label>
@@ -120,10 +118,22 @@ document.addEventListener("DOMContentLoaded", () => {
                   <path d="M2 8.36364L6.23077 12L13 2"></path>
               </svg>
           </div>
+        </div>
+          <p>Promoção do dia<p/>
       </div>
-      <p>Promoção do dia<p/>
+      
     </div>
+  
+    <div class="imagem-item-cardapio">
 
+      <img src="${url}${item.img}" alt="${url}${item.img}"
+      required class="imagem-item" data-img="${item.img}" >
+      <button onclick="deleteItem('${categoria._id.toString()}', '${item._id.toString()}', '${
+        item.img
+      }')" class="btn-deletar deletar-item" data-id="${item._id.toString()}">Deletar Item</button>
+   
+</div>
+  
     
       `;
       itensContainer.appendChild(itemDiv);
@@ -155,25 +165,41 @@ document.addEventListener("DOMContentLoaded", () => {
 
   itemForm.addEventListener("submit", async (e) => {
     e.preventDefault();
-    const categoriaId = categoriaSelectEnvio.value;
-    const item = {
-      nome: document.getElementById("nomeInput").value,
-      img: document.getElementById("imgInput").value,
-      precoOriginal: window.converterParaNumero(
-        document.getElementById("precoInput").value
-      ),
-      descricao: document.getElementById("descricaoInput").value,
-      tipo: document.getElementById("tipoInput").value,
-      promocaoDia: false,
-    };
+
+    const categoriaId = document.querySelector(".categoriaSelectEnvio").value;
+    const nome = document.getElementById("nomeInput").value;
+    const precoOriginal = window.converterParaNumero(
+      document.getElementById("precoInput").value
+    );
+    const descricao = document.getElementById("descricaoInput").value;
+    const tipo = document.getElementById("tipoInput").value;
+    const promocaoDia = false;
+
+    const imgInput = document.getElementById("imgInput");
+    const file = imgInput.files[0];
 
     try {
+      let imgPath = "";
+      if (file) {
+        imgPath = await uploadImage(file);
+      }
+
+      const item = {
+        categoria: categoriaId,
+        nome,
+        img: imgPath,
+        precoOriginal,
+        descricao,
+        tipo,
+        promocaoDia,
+      };
+
       await postItemACategoria(categoriaId, item);
       await alertSucesso("Item Adicionado com sucesso");
       window.location.reload();
     } catch (e) {
       console.error("Error: ", e);
-      alertErro(e.message);
+      await alertErro(e.message);
     }
   });
 
@@ -193,7 +219,9 @@ document.addEventListener("DOMContentLoaded", () => {
     ).map((itemDiv) => {
       const id = itemDiv.querySelector(".btn-deletar").getAttribute("data-id");
       const promocaoDia = itemDiv.querySelector(".item-radio").checked;
-
+      const img = itemDiv
+        .querySelector(".imagem-item")
+        .getAttribute("data-img");
       return {
         id: id,
         nome: itemDiv.querySelector(".item-nome").value,
@@ -202,7 +230,7 @@ document.addEventListener("DOMContentLoaded", () => {
         ),
         descricao: itemDiv.querySelector(".item-descricao").value,
         tipo: itemDiv.querySelector(".item-tipo").value,
-        img: itemDiv.querySelector(".item-img").value,
+        img,
         promocaoDia: promocaoDia,
       };
     });
@@ -227,14 +255,14 @@ document.addEventListener("DOMContentLoaded", () => {
     await window.alertDelete(
       deletarCategoria,
       [id],
-      "Todos os itens desta categoria também serão deletados!"
+      "Tem certeza que deseja deletar essa categoria?"
     );
   };
 
-  window.deleteItem = async (categoriaId, itemId) => {
+  window.deleteItem = async (categoriaId, itemId, nomeImg) => {
     await window.alertDelete(
       deletarItem,
-      [categoriaId, itemId],
+      [categoriaId, itemId, nomeImg],
       "Tem certeza que deseja deletar esse item?"
     );
   };

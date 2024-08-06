@@ -15,7 +15,7 @@ export const getCategorias = async () => {
 const getCategoria = async (categoriaId) => {
   try {
     const cardapio = await getCardapio();
-    const categoria = cardapio.find((cat) => cat.id === categoriaId);
+    const categoria = cardapio.find((cat) => cat._id === categoriaId);
     if (!categoria) {
       console.error(`Categoria não encontrada: ${categoriaId}`);
     }
@@ -27,6 +27,12 @@ const getCategoria = async (categoriaId) => {
 
 //função para deletar uma nova categoria
 export const deletarCategoria = async (id) => {
+  const cardapio = await getCategoria(id);
+
+  if (cardapio.itens.length > 0) {
+    window.alertErro("Necessario apagar primeiro os itens desta categoria");
+    throw new Error();
+  }
   try {
     await fetch(`${URL_CARDAPIO}/${id}`, {
       method: "DELETE",

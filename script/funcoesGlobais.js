@@ -35,7 +35,14 @@ const visualizarSenha = () => {
 const converterParaNumero = (valor) => {
   valor = valor.replace(",", ".");
   valor = valor.replace(/[^0-9.]/g, "");
-  return parseFloat(valor);
+  const numero = parseFloat(valor);
+
+  // Verificar se a conversão resultou em NaN
+  if (isNaN(numero)) {
+    return 0;
+  }
+
+  return numero;
 };
 
 const alertDelete = async (deletar, params, text) => {
@@ -98,6 +105,13 @@ const boasVindas = () => {
   }
 };
 
+const getFileNameFromUrl = (url) => {
+  // Usa uma expressão regular para extrair o nome do arquivo
+  const match = url.match(/\/([^\/?#]+)[^\/]*$/);
+  return match ? match[1] : null;
+};
+
+window.getFileNameFromUrl = getFileNameFromUrl;
 window.boasVindas = boasVindas;
 window.alertErro = alertErro;
 window.alertSucesso = alertSucesso;

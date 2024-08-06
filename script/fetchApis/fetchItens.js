@@ -1,5 +1,6 @@
 import { getCardapio, URL_CARDAPIO } from "./fetchCardapio.js";
 import { putCategoria } from "./fetchCategoria.js";
+import { deleteImage } from "./fetchImgs.js";
 
 // // Função para obter todos os itens juntos em um array
 export const getItensAll = async () => {
@@ -63,13 +64,15 @@ export const postItemACategoria = async (categoriaId, item) => {
 };
 
 // // Função para deletar um item de uma categoria
-export const deletarItem = async (categoriaId, itemId) => {
+export const deletarItem = async (categoriaId, itemId, nomeImg) => {
   try {
     const response = await fetch(`${URL_CARDAPIO}/${categoriaId}`);
     const categoria = await response.json();
     categoria.itens = categoria.itens.filter(
       (i) => i._id.toString() !== itemId.toString()
     );
+    const nomeOriginalImg = window.getFileNameFromUrl(nomeImg);
+    await deleteImage(nomeOriginalImg);
     await putCategoria(categoriaId, categoria);
     return true;
   } catch (e) {

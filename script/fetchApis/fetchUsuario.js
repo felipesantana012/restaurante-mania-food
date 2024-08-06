@@ -1,5 +1,5 @@
 import { url } from "./url.js";
-const URL_USUARIO = `${url}usuario`;
+const URL_USUARIO = `${url}/usuario`;
 
 export const getUsuario = async () => {
   try {
