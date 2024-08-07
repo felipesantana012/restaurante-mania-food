@@ -43,14 +43,13 @@
                             <option value="">Selecione a Categoria</option>
                         </select>
                         <input type="text" id="nomeInput" name="nomeInput" placeholder="Nome do Item" class="inputs"
-                            required maxlength="20">
-                        <input type="file" name="imgInput" id="imgInput" placeholder="URL da Imagem" class="inputs"
-                            required>
+                            required maxlength="30" minlength="10">
+                        <input type="file" name="imgInput" id="imgInput" class="inputs" required>
                         <input type="text" id="precoInput" placeholder="Preço" class="inputs" required maxlength="5">
                         <input type="text" id="descricaoInput" placeholder="Descrição" class="inputs" required
-                            maxlength="110">
+                            maxlength="120" minlength="10">
                         <input type="text" id="tipoInput" placeholder="Tipo ou Tamanho" class="inputs" required
-                            maxlength="15">
+                            maxlength="15" minlength="5">
                         <button class="btn-cadastro">Adicionar Item</button>
                     </form>
                 </div>
